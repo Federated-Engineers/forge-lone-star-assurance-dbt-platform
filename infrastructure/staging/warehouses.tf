@@ -1,3 +1,4 @@
+/*
 module "transform_staging_wh" {
   source = "../modules/snowflake_warehouse"
 
@@ -15,3 +16,4 @@ module "loading_wh" {
   monthly_credit_quota = 100
   comment              = "Shared loader warehouse used by AIRFLOW_LOADER_SVC across envs"
 }
+*/

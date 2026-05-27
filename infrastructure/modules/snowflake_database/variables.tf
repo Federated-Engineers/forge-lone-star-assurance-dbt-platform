@@ -1,6 +1,6 @@
 variable "name" {
   type        = string
-  description = "Database name (uppercase, no spaces)"
+  description = "Database name"
 }
 
 variable "comment" {

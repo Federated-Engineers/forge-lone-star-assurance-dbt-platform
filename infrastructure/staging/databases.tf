@@ -1,3 +1,4 @@
+/*
 module "bronze_staging" {
   source = "../modules/snowflake_database"
 
@@ -18,3 +19,4 @@ module "gold_staging" {
   name    = "GOLD_STAGING"
   comment = "Business-ready facts and dimensions per department"
 }
+*/

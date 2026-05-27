@@ -12,5 +12,5 @@ provider "snowflake" {
   account_name      = var.snowflake_account_name
   user              = var.snowflake_user
   role              = "TERRAFORM_ROLE"
-  warehouse         = "COMPUTE_WH"
+  warehouse         = "TERRAFORM_WH"
 }

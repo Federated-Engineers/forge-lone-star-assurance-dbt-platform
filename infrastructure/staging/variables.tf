@@ -15,10 +15,15 @@ variable "snowflake_user" {
 
 variable "dbt_staging_svc_rsa_public_key" {
   type        = string
-  description = "RSA public key (PEM body only, no BEGIN/END markers, single line) for DBT_STAGING_SVC"
+  description = "RSA public key for DBT_STAGING_SVC"
 }
 
 variable "airflow_loader_svc_rsa_public_key" {
   type        = string
-  description = "RSA public key (PEM body only, no BEGIN/END markers, single line) for AIRFLOW_LOADER_SVC"
+  description = "RSA public key for AIRFLOW_LOADER_SVC"
+}
+
+variable "s3_iam_role_arn" {
+  type        = string
+  description = "ARN of the AWS IAM role Snowflake assumes to read from the S3 bucket"
 }

@@ -10,5 +10,5 @@ output "database" {
 
 output "fully_qualified_name" {
   value       = snowflake_schema.lonestar-schema.fully_qualified_name
-  description = "Fully qualified name (\"DB\".\"SCHEMA\") for use in grant resources"
+  description = "Fully qualified name for use in grant resources"
 }

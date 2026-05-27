@@ -1,6 +1,6 @@
 variable "name" {
   type        = string
-  description = "Schema name (uppercase, no spaces)"
+  description = "Schema name"
 }
 
 variable "database" {

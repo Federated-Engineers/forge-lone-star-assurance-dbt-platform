@@ -1,3 +1,4 @@
+/*
 locals {
   departments = ["POLICY", "CLAIMS", "CRM"]
 }
@@ -27,3 +28,4 @@ module "gold_schemas" {
   database = module.gold_staging.name
   comment  = "${each.value} business-ready facts and dimensions built by dbt"
 }
+*/
