@@ -25,5 +25,5 @@ variable "airflow_loader_svc_rsa_public_key" {
 
 variable "s3_iam_role_arn" {
   type        = string
-  description = "ARN of the AWS IAM role Snowflake assumes to read from the S3 bucket"
+  description = "ARN of the AWS IAM role Snowflake assumes to read from the S3 bucket."
 }
