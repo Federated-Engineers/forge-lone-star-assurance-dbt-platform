@@ -3,6 +3,6 @@ resource "snowflake_storage_integration_aws" "lonestar_s3" {
   comment                   = "S3 integration for Lone Star Assurance staging data lake"
   enabled                   = true
   storage_provider          = "S3"
-  storage_aws_role_arn      = "arn:aws:iam::049417293525:role/snowflake-lonestar-staging-loader"
+  storage_aws_role_arn      = "arn:aws:iam::049417293525:role/staging-forge-lonestar-snowflake-access-role"
   storage_allowed_locations = ["s3://lone-star-assurance-lake/"]
 }
