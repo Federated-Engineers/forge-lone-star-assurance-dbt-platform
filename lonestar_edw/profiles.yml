@@ -1,6 +1,6 @@
 lonestar_edw:
   outputs:
-    dev:
+    prod:
       account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
       database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
@@ -10,5 +10,5 @@ lonestar_edw:
       type: snowflake
       user: "{{ env_var('SNOWFLAKE_USER') }}"
       warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
-  target: dev
+  target: prod
   
