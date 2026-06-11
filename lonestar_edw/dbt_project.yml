@@ -1,0 +1,17 @@
+name: 'lonestar_edw'
+version: '1.0.0'
+
+profile: 'lonestar_edw'
+
+model-paths: ["models"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+models:
+  lonestar_edw:
+    example:
+      +materialized: view
