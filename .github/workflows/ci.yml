@@ -1,0 +1,21 @@
+name: CI pipeline
+
+on:
+  pull_request:
+    paths:
+      - "lonestar_edw/**"
+
+jobs:
+  lint-sql:
+    name: Lint SQL with SQLFluff
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Install dev dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Lint dbt models
+        run: sqlfluff lint lonestar_edw/models --format github-annotation-native
