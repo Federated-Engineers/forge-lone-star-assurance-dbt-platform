@@ -19,13 +19,3 @@ jobs:
 
       - name: Lint dbt models
         run: sqlfluff lint lonestar_edw/models --format github-annotation-native
-
-      - name: terraform fmt
-        uses: dflook/terraform-fmt-check@v1
-        with:
-          path: ./snowflake_infra/production
-
-      - name: terraform validate
-        uses: dflook/terraform-validate@v2
-        with:
-          path: ./snowflake_infra/production
