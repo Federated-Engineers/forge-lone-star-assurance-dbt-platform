@@ -4,14 +4,14 @@ module "dbt_wh" {
   name                 = "DBT_WH"
   initially_suspended  = true
   monthly_credit_quota = 100
-  comment              = "Used by DBT_SVC for dbt runs"
+  comment              = "Used by DBT_USR for dbt runs"
 }
 
 module "airflow_wh" {
-  source = "../modules/snowflake_warehouse"
+  source = "../modules/warehouse"
 
   name                 = "AIRFLOW_WH"
   initially_suspended  = true
   monthly_credit_quota = 100
-  comment              = "Loader warehouse used by AIRFLOW_SVC"
+  comment              = "Loader warehouse used by AIRFLOW_USR"
 }
