@@ -1,17 +1,15 @@
-# Data engineer privileges: build across all layers, read all layers.
-
 resource "snowflake_grant_privileges_to_account_role" "de_warehouse" {
-  privileges        = ["MODIFY", "MONITOR", "OPERATE", "USAGE"]
-  account_role_name = snowflake_account_role.data_engineer.name
+  privileges        = ["USAGE"]
+  account_role_name = snowflake_account_role.data_eng.name
   on_account_object {
     object_type = "WAREHOUSE"
-    object_name = module.data_engineer_wh.name
+    object_name = module.data_eng_wh.name
   }
 }
 
 resource "snowflake_grant_privileges_to_account_role" "de_database" {
-  privileges        = ["MODIFY", "MONITOR", "USAGE"]
-  account_role_name = snowflake_account_role.data_engineer.name
+  privileges        = ["USAGE"]
+  account_role_name = snowflake_account_role.data_eng.name
   on_account_object {
     object_type = "DATABASE"
     object_name = snowflake_database.lonestar_edw.name
@@ -19,32 +17,32 @@ resource "snowflake_grant_privileges_to_account_role" "de_database" {
 }
 
 resource "snowflake_grant_privileges_to_account_role" "de_bronze" {
-  privileges        = ["USAGE", "CREATE TABLE", "CREATE VIEW", "CREATE STAGE"]
-  account_role_name = snowflake_account_role.data_engineer.name
+  account_role_name = snowflake_account_role.data_eng.name
   on_schema {
     schema_name = snowflake_schema.bronze.fully_qualified_name
   }
+  all_privileges = true
 }
 
 resource "snowflake_grant_privileges_to_account_role" "de_silver" {
-  privileges        = ["USAGE", "CREATE TABLE", "CREATE VIEW", "CREATE STAGE"]
-  account_role_name = snowflake_account_role.data_engineer.name
+  account_role_name = snowflake_account_role.data_eng.name
   on_schema {
     schema_name = snowflake_schema.silver.fully_qualified_name
   }
+  all_privileges = true
 }
 
 resource "snowflake_grant_privileges_to_account_role" "de_gold" {
-  privileges        = ["USAGE", "CREATE TABLE", "CREATE VIEW", "CREATE STAGE"]
-  account_role_name = snowflake_account_role.data_engineer.name
+  account_role_name = snowflake_account_role.data_eng.name
   on_schema {
     schema_name = snowflake_schema.gold.fully_qualified_name
   }
+  all_privileges = true
 }
 
 resource "snowflake_grant_privileges_to_account_role" "de_bronze_tables" {
   privileges        = ["SELECT"]
-  account_role_name = snowflake_account_role.data_engineer.name
+  account_role_name = snowflake_account_role.data_eng.name
   on_schema_object {
     all {
       object_type_plural = "TABLES"
@@ -55,7 +53,7 @@ resource "snowflake_grant_privileges_to_account_role" "de_bronze_tables" {
 
 resource "snowflake_grant_privileges_to_account_role" "de_bronze_future_tables" {
   privileges        = ["SELECT"]
-  account_role_name = snowflake_account_role.data_engineer.name
+  account_role_name = snowflake_account_role.data_eng.name
   on_schema_object {
     future {
       object_type_plural = "TABLES"
@@ -66,7 +64,7 @@ resource "snowflake_grant_privileges_to_account_role" "de_bronze_future_tables" 
 
 resource "snowflake_grant_privileges_to_account_role" "de_silver_tables" {
   privileges        = ["SELECT"]
-  account_role_name = snowflake_account_role.data_engineer.name
+  account_role_name = snowflake_account_role.data_eng.name
   on_schema_object {
     all {
       object_type_plural = "TABLES"
@@ -77,7 +75,7 @@ resource "snowflake_grant_privileges_to_account_role" "de_silver_tables" {
 
 resource "snowflake_grant_privileges_to_account_role" "de_silver_future_tables" {
   privileges        = ["SELECT"]
-  account_role_name = snowflake_account_role.data_engineer.name
+  account_role_name = snowflake_account_role.data_eng.name
   on_schema_object {
     future {
       object_type_plural = "TABLES"
@@ -88,7 +86,7 @@ resource "snowflake_grant_privileges_to_account_role" "de_silver_future_tables" 
 
 resource "snowflake_grant_privileges_to_account_role" "de_silver_views" {
   privileges        = ["SELECT"]
-  account_role_name = snowflake_account_role.data_engineer.name
+  account_role_name = snowflake_account_role.data_eng.name
   on_schema_object {
     all {
       object_type_plural = "VIEWS"
@@ -99,7 +97,7 @@ resource "snowflake_grant_privileges_to_account_role" "de_silver_views" {
 
 resource "snowflake_grant_privileges_to_account_role" "de_silver_future_views" {
   privileges        = ["SELECT"]
-  account_role_name = snowflake_account_role.data_engineer.name
+  account_role_name = snowflake_account_role.data_eng.name
   on_schema_object {
     future {
       object_type_plural = "VIEWS"
@@ -110,7 +108,7 @@ resource "snowflake_grant_privileges_to_account_role" "de_silver_future_views" {
 
 resource "snowflake_grant_privileges_to_account_role" "de_gold_tables" {
   privileges        = ["SELECT"]
-  account_role_name = snowflake_account_role.data_engineer.name
+  account_role_name = snowflake_account_role.data_eng.name
   on_schema_object {
     all {
       object_type_plural = "TABLES"
@@ -121,7 +119,7 @@ resource "snowflake_grant_privileges_to_account_role" "de_gold_tables" {
 
 resource "snowflake_grant_privileges_to_account_role" "de_gold_future_tables" {
   privileges        = ["SELECT"]
-  account_role_name = snowflake_account_role.data_engineer.name
+  account_role_name = snowflake_account_role.data_eng.name
   on_schema_object {
     future {
       object_type_plural = "TABLES"
@@ -132,7 +130,7 @@ resource "snowflake_grant_privileges_to_account_role" "de_gold_future_tables" {
 
 resource "snowflake_grant_privileges_to_account_role" "de_gold_views" {
   privileges        = ["SELECT"]
-  account_role_name = snowflake_account_role.data_engineer.name
+  account_role_name = snowflake_account_role.data_eng.name
   on_schema_object {
     all {
       object_type_plural = "VIEWS"
@@ -143,7 +141,7 @@ resource "snowflake_grant_privileges_to_account_role" "de_gold_views" {
 
 resource "snowflake_grant_privileges_to_account_role" "de_gold_future_views" {
   privileges        = ["SELECT"]
-  account_role_name = snowflake_account_role.data_engineer.name
+  account_role_name = snowflake_account_role.data_eng.name
   on_schema_object {
     future {
       object_type_plural = "VIEWS"

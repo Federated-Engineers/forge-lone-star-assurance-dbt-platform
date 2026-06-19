@@ -4,7 +4,7 @@ resource "snowflake_grant_privileges_to_account_role" "airflow_warehouse" {
   account_role_name = snowflake_account_role.airflow_role.name
   on_account_object {
     object_type = "WAREHOUSE"
-    object_name = module.airflow_wh.name
+    object_name = module.etl_wh.name
   }
 }
 
