@@ -15,9 +15,9 @@ variable "initially_suspended" {
   default     = true
 }
 
-variable "monthly_credit_quota" {
+variable "credit_quota" {
   type        = number
-  description = "Monthly credit limit for the resource monitor"
+  description = "Credit limit for the resource monitor per frequency interval"
 }
 
 variable "comment" {

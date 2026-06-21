@@ -8,7 +8,7 @@ resource "snowflake_warehouse" "lonestar_warehouse" {
 
 resource "snowflake_resource_monitor" "ls_warehouse_monitor" {
   name            = "${var.name}_RM"
-  credit_quota    = var.monthly_credit_quota
+  credit_quota    = var.credit_quota
   frequency       = "MONTHLY"
   start_timestamp = "IMMEDIATELY"
 
