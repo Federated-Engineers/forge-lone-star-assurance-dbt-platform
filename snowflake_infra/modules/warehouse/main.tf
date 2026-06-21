@@ -12,6 +12,7 @@ resource "snowflake_resource_monitor" "ls_warehouse_monitor" {
   frequency       = "MONTHLY"
   start_timestamp = "IMMEDIATELY"
 
+  notify_users              = var.notify_users
   notify_triggers           = [75, 90]
   suspend_trigger           = 100
   suspend_immediate_trigger = 110

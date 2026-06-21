@@ -12,7 +12,7 @@ resource "snowflake_grant_privileges_to_account_role" "platform_eng_database" {
   account_role_name = snowflake_account_role.platform_eng.name
   on_account_object {
     object_type = "DATABASE"
-    object_name = snowflake_database.lonestar_edw.name
+    object_name = snowflake_database.prod_db.name
   }
 }
 
@@ -21,7 +21,7 @@ resource "snowflake_grant_ownership" "platform_eng_bronze" {
   outbound_privileges = "COPY"
   on {
     object_type = "SCHEMA"
-    object_name = "\"${snowflake_database.lonestar_edw.name}\".\"${snowflake_schema.bronze.name}\""
+    object_name = "\"${snowflake_database.prod_db.name}\".\"${snowflake_schema.bronze.name}\""
   }
 }
 
@@ -30,7 +30,7 @@ resource "snowflake_grant_ownership" "platform_eng_silver" {
   outbound_privileges = "COPY"
   on {
     object_type = "SCHEMA"
-    object_name = "\"${snowflake_database.lonestar_edw.name}\".\"${snowflake_schema.silver.name}\""
+    object_name = "\"${snowflake_database.prod_db.name}\".\"${snowflake_schema.silver.name}\""
   }
 }
 
@@ -39,6 +39,6 @@ resource "snowflake_grant_ownership" "platform_eng_gold" {
   outbound_privileges = "COPY"
   on {
     object_type = "SCHEMA"
-    object_name = "\"${snowflake_database.lonestar_edw.name}\".\"${snowflake_schema.gold.name}\""
+    object_name = "\"${snowflake_database.prod_db.name}\".\"${snowflake_schema.gold.name}\""
   }
 }

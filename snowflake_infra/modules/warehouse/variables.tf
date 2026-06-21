@@ -25,3 +25,9 @@ variable "comment" {
   description = "Warehouse description"
   default     = "Managed by Terraform"
 }
+
+variable "notify_users" {
+  type        = set(string)
+  description = "Users to notify when the resource monitor reaches its thresholds"
+  default     = []
+}
