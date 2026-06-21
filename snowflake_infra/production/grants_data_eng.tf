@@ -17,11 +17,11 @@ resource "snowflake_grant_privileges_to_account_role" "de_database" {
 }
 
 resource "snowflake_grant_privileges_to_account_role" "de_bronze" {
+  privileges        = ["USAGE"]
   account_role_name = snowflake_account_role.data_eng.name
   on_schema {
     schema_name = snowflake_schema.bronze.fully_qualified_name
   }
-  all_privileges = true
 }
 
 resource "snowflake_grant_privileges_to_account_role" "de_silver" {
