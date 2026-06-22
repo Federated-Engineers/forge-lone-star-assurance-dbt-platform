@@ -14,7 +14,7 @@ resource "snowflake_grant_privileges_to_account_role" "airflow_database" {
   account_role_name = snowflake_account_role.airflow_role.name
   on_account_object {
     object_type = "DATABASE"
-    object_name = snowflake_database.prod_db.name
+    object_name = snowflake_database.lonestar_prod_db.name
   }
 }
 
