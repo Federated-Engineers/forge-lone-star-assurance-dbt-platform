@@ -15,19 +15,8 @@ variable "initially_suspended" {
   default     = true
 }
 
-variable "credit_quota" {
-  type        = number
-  description = "Credit limit for the resource monitor per frequency interval"
-}
-
 variable "comment" {
   type        = string
   description = "Warehouse description"
   default     = "Managed by Terraform"
-}
-
-variable "notify_users" {
-  type        = set(string)
-  description = "Users to notify when the resource monitor reaches its thresholds"
-  default     = []
 }
