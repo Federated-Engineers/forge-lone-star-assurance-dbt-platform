@@ -16,6 +16,11 @@ provider "snowflake" {
   organization_name = var.snowflake_organization_name
   account_name      = var.snowflake_account_name
   user              = var.snowflake_user
+
+  preview_features_enabled = [
+    "snowflake_storage_integration_aws_resource",
+    "snowflake_stage_external_s3_resource",
+  ]
 }
 
 provider "aws" {
