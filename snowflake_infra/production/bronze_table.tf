@@ -1,11 +1,11 @@
 resource "snowflake_table" "bronze_raw_daily_load" {
   database = snowflake_database.lonestar_prod_db.name
   schema   = snowflake_schema.bronze.name
-  name     = "RAW_DAILY_LOAD"
+  name     = "LONESTAR_DAILY_LOAD"
   comment  = "Raw nightly JSON dump from S3 with ingestion audit columns"
 
   column {
-    name    = "RAW_DATA"
+    name    = "LONESTAR_DATA"
     type    = "VARIANT"
     comment = "Raw JSON record as landed from S3"
   }
