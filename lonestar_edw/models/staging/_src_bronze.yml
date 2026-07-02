@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: bronze
+    database: lonestar_prod_db
+    schema: bronze
+    tables:
+      - name: lonestar_daily_load
+        description: "Raw nightly JSON dump from S3"
