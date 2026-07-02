@@ -1,9 +1,9 @@
 select
     c.value:customer_id::string as customer_id,
-    c.value:first_name::string as first_name,
-    c.value:last_name::string as last_name,
+    c.value:first_name::string as f_name,
+    c.value:last_name::string as l_name,
     c.value:dob::date as dob,
-    c.value:email::string as email,
+    c.value:email::string as e_mail,
     c.value:home_address::string as home_address,
     c.value:city::string as city,
     c.value:zip_code::string as zip_code,
