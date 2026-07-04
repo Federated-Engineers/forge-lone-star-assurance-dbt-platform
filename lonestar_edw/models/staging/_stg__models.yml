@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "One row per customer"
+    columns:
+      - name: customer_id
+        description: "Primary key, one row per customer."
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_agents
+    description: "One row per selling agent"
+    columns:
+      - name: agent_id
+        description: "Primary key, one row per agent."
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_policies
+    description: "One row per policy"
+    columns:
+      - name: policy_id
+        description: "Primary key, one row per policy."
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "FK to stg_customers, the policyholder."
+      - name: agent_id
+        description: "FK to stg_agents, the selling agent."
+
+  - name: stg_assets
+    description: "One row per insured asset"
+    columns:
+      - name: asset_id
+        description: "Primary key, one row per insured asset."
+        data_tests:
+          - unique
+          - not_null
+      - name: policy_id
+        description: "FK to stg_policies, the policy covering this asset."
+      - name: location_zip
+        description: "Kept as string to preserve leading zeros."
+
+  - name: stg_claims
+    description: "One row per claim"
+    columns:
+      - name: claim_id
+        description: "Primary key, one row per claim."
+        data_tests:
+          - unique
+          - not_null
+      - name: policy_id
+        description: "FK to stg_policies, the policy the claim is filed against."
+      - name: asset_id
+        description: "FK to stg_assets, the damaged or lost asset."
+      - name: amount_paid
+        description: "The total amount paid to settle an insurance claim"
