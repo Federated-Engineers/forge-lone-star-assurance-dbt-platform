@@ -2,10 +2,10 @@ version: 2
 
 models:
   - name: stg_customers
-    description: "One row per customer. Some customer_ids collide across different people — we keep the latest record so it stays a clean FK."
+    description: "One row per customer."
     columns:
       - name: customer_id
-        description: "Customer PK. Collisions collapsed, latest source file wins."
+        description: "Identifier for a customer."
         data_tests:
           - unique
           - not_null
@@ -14,13 +14,13 @@ models:
     description: "One row per selling agent."
     columns:
       - name: agent_id
-        description: "Agent PK."
+        description: "Identifier for a selling agent."
         data_tests:
           - unique
           - not_null
 
   - name: stg_policies
-    description: "One row per policy term. Policies renew, so policy_id repeats — grain is policy_id + effective_date."
+    description: "One row per policy term (policy_id + effective_date)."
     columns:
       - name: policy_term_key
         description: "Surrogate key for a policy term (md5 of policy_id + effective_date)."
@@ -28,39 +28,39 @@ models:
           - unique
           - not_null
       - name: policy_id
-        description: "The policy number — not unique here, a policy has multiple terms."
+        description: "The insurer's policy number."
         data_tests:
           - not_null
       - name: effective_date
-        description: "Term start date. Part of the grain."
+        description: "Date the coverage term starts."
         data_tests:
           - not_null
       - name: customer_id
-        description: "FK to stg_customers — the policyholder."
+        description: "The policyholder (FK to stg_customers)."
       - name: agent_id
-        description: "FK to stg_agents — the selling agent."
+        description: "The agent who sold the policy (FK to stg_agents)."
 
   - name: stg_assets
-    description: "One row per insured asset. asset_id gets reused across policies, so grain is policy_id + asset_id."
+    description: "One row per insured asset (policy_id + asset_id)."
     columns:
       - name: asset_key
-        description: "Surrogate key for an asset within a policy (md5 of policy_id + asset_id)."
+        description: "Surrogate key for an insured asset (md5 of policy_id + asset_id)."
         data_tests:
           - unique
           - not_null
       - name: asset_id
-        description: "The asset number — reused across policies, so not unique on its own."
+        description: "The asset number."
         data_tests:
           - not_null
       - name: policy_id
-        description: "FK to stg_policies — the covering policy, also part of the grain."
+        description: "The policy covering the asset (FK to stg_policies)."
         data_tests:
           - not_null
       - name: location_zip
-        description: "Kept as a string so leading zeros survive."
+        description: "ZIP code of the asset"
 
   - name: stg_claims
-    description: "One row per claim. claim_id collides across claims, so grain is claim_id + policy_id."
+    description: "One row per claim (claim_id + policy_id)."
     columns:
       - name: claim_key
         description: "Surrogate key for a claim (md5 of claim_id + policy_id)."
@@ -68,14 +68,14 @@ models:
           - unique
           - not_null
       - name: claim_id
-        description: "The claim number — collides across claims, so not unique on its own."
+        description: "The claim number Identifier."
         data_tests:
           - not_null
       - name: policy_id
-        description: "FK to stg_policies — the policy the claim is against, also part of the grain."
+        description: "The policy the claim is filed against (FK to stg_policies)."
         data_tests:
           - not_null
       - name: asset_id
-        description: "FK to stg_assets — the damaged asset (join on policy_id + asset_id)."
+        description: "The asset the claim is against (FK to stg_assets)."
       - name: amount_paid
         description: "Amount paid out to settle the claim."
