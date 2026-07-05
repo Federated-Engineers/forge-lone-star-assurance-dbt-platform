@@ -10,6 +10,11 @@ select
     p.value:expiration_date::date as expiration_date,
     p.value:policy_status::string as policy_status,
     src.source_file_name,
-    src.load_timestamp
+    src.load_timestamp,
+    md5(p.value:policy_id::string || '-' || p.value:effective_date::string) as policy_term_key
 from {{ source('bronze', 'lonestar_daily_load') }} as src,
     lateral flatten(input => src.lonestar_data:policies) as p
+qualify row_number() over (
+    partition by p.value:policy_id::string, p.value:effective_date::date
+    order by src.source_file_name desc
+) = 1

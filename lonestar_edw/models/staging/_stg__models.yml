@@ -2,60 +2,80 @@ version: 2
 
 models:
   - name: stg_customers
-    description: "One row per customer"
+    description: "One row per customer. Some customer_ids collide across different people — we keep the latest record so it stays a clean FK."
     columns:
       - name: customer_id
-        description: "Primary key, one row per customer."
+        description: "Customer PK. Collisions collapsed, latest source file wins."
         data_tests:
           - unique
           - not_null
 
   - name: stg_agents
-    description: "One row per selling agent"
+    description: "One row per selling agent."
     columns:
       - name: agent_id
-        description: "Primary key, one row per agent."
+        description: "Agent PK."
         data_tests:
           - unique
           - not_null
 
   - name: stg_policies
-    description: "One row per policy"
+    description: "One row per policy term. Policies renew, so policy_id repeats — grain is policy_id + effective_date."
     columns:
-      - name: policy_id
-        description: "Primary key, one row per policy."
+      - name: policy_term_key
+        description: "Surrogate key for a policy term (md5 of policy_id + effective_date)."
         data_tests:
           - unique
+          - not_null
+      - name: policy_id
+        description: "The policy number — not unique here, a policy has multiple terms."
+        data_tests:
+          - not_null
+      - name: effective_date
+        description: "Term start date. Part of the grain."
+        data_tests:
           - not_null
       - name: customer_id
-        description: "FK to stg_customers, the policyholder."
+        description: "FK to stg_customers — the policyholder."
       - name: agent_id
-        description: "FK to stg_agents, the selling agent."
+        description: "FK to stg_agents — the selling agent."
 
   - name: stg_assets
-    description: "One row per insured asset"
+    description: "One row per insured asset. asset_id gets reused across policies, so grain is policy_id + asset_id."
     columns:
-      - name: asset_id
-        description: "Primary key, one row per insured asset."
+      - name: asset_key
+        description: "Surrogate key for an asset within a policy (md5 of policy_id + asset_id)."
         data_tests:
           - unique
           - not_null
+      - name: asset_id
+        description: "The asset number — reused across policies, so not unique on its own."
+        data_tests:
+          - not_null
       - name: policy_id
-        description: "FK to stg_policies, the policy covering this asset."
+        description: "FK to stg_policies — the covering policy, also part of the grain."
+        data_tests:
+          - not_null
       - name: location_zip
-        description: "Kept as string to preserve leading zeros."
+        description: "Kept as a string so leading zeros survive."
 
   - name: stg_claims
-    description: "One row per claim"
+    description: "One row per claim. claim_id collides across claims, so grain is claim_id + policy_id."
     columns:
-      - name: claim_id
-        description: "Primary key, one row per claim."
+      - name: claim_key
+        description: "Surrogate key for a claim (md5 of claim_id + policy_id)."
         data_tests:
           - unique
           - not_null
+      - name: claim_id
+        description: "The claim number — collides across claims, so not unique on its own."
+        data_tests:
+          - not_null
       - name: policy_id
-        description: "FK to stg_policies, the policy the claim is filed against."
+        description: "FK to stg_policies — the policy the claim is against, also part of the grain."
+        data_tests:
+          - not_null
       - name: asset_id
-        description: "FK to stg_assets, the damaged or lost asset."
+        description: "FK to stg_assets — the damaged asset (join on policy_id + asset_id)."
       - name: amount_paid
-        description: "The total amount paid to settle an insurance claim"
+        description: "Amount paid out to settle the claim."

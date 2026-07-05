@@ -13,3 +13,7 @@ select
     src.load_timestamp
 from {{ source('bronze', 'lonestar_daily_load') }} as src,
     lateral flatten(input => src.lonestar_data:customers) as c
+qualify row_number() over (
+    partition by c.value:customer_id::string
+    order by src.source_file_name desc
+) = 1
