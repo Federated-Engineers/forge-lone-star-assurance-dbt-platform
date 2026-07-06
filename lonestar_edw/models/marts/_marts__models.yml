@@ -1,0 +1,71 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "One row per customer."
+    columns:
+      - name: customer_id
+        description: "Identifier for a customer (PK)."
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_agents
+    description: "One row per selling agent."
+    columns:
+      - name: agent_id
+        description: "Identifier for a selling agent (PK)."
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_assets
+    description: "One row per insured asset (policy_id + asset_id)."
+    columns:
+      - name: asset_key
+        description: "Surrogate key for an insured asset (PK)."
+        data_tests:
+          - unique
+          - not_null
+
+  - name: fct_policies
+    description: "One row per policy term."
+    columns:
+      - name: policy_term_key
+        description: "Surrogate key for a policy term (PK)."
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "The policyholder (FK to dim_customers)."
+        data_tests:
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+      - name: agent_id
+        description: "The selling agent (FK to dim_agents)."
+        data_tests:
+          - relationships:
+              to: ref('dim_agents')
+              field: agent_id
+
+  - name: fct_claims
+    description: "One row per claim."
+    columns:
+      - name: claim_key
+        description: "Surrogate key for a claim (PK)."
+        data_tests:
+          - unique
+          - not_null
+      - name: asset_key
+        description: "The asset the claim is against (FK to dim_assets)."
+        data_tests:
+          - relationships:
+              to: ref('dim_assets')
+              field: asset_key
+      - name: policy_term_key
+        description: "The policy term in force at incident (FK to fct_policies)."
+        data_tests:
+          - relationships:
+              to: ref('fct_policies')
+              field: policy_term_key
