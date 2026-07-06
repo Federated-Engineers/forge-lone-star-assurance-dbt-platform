@@ -40,14 +40,16 @@ models:
         description: "The policyholder (FK to dim_customers)."
         data_tests:
           - relationships:
-              to: ref('dim_customers')
-              field: customer_id
+              arguments:
+                to: ref('dim_customers')
+                field: customer_id
       - name: agent_id
         description: "The selling agent (FK to dim_agents)."
         data_tests:
           - relationships:
-              to: ref('dim_agents')
-              field: agent_id
+              arguments:
+                to: ref('dim_agents')
+                field: agent_id
 
   - name: fct_claims
     description: "One row per claim."
@@ -61,11 +63,13 @@ models:
         description: "The asset the claim is against (FK to dim_assets)."
         data_tests:
           - relationships:
-              to: ref('dim_assets')
-              field: asset_key
+              arguments:
+                to: ref('dim_assets')
+                field: asset_key
       - name: policy_term_key
         description: "The policy term in force at incident (FK to fct_policies)."
         data_tests:
           - relationships:
-              to: ref('fct_policies')
-              field: policy_term_key
+              arguments:
+                to: ref('fct_policies')
+                field: policy_term_key
