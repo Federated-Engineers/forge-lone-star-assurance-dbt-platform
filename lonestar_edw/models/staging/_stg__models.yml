@@ -2,60 +2,80 @@ version: 2
 
 models:
   - name: stg_customers
-    description: "One row per customer"
+    description: "One row per customer."
     columns:
       - name: customer_id
-        description: "Primary key, one row per customer."
+        description: "Identifier for a customer."
         data_tests:
           - unique
           - not_null
 
   - name: stg_agents
-    description: "One row per selling agent"
+    description: "One row per selling agent."
     columns:
       - name: agent_id
-        description: "Primary key, one row per agent."
+        description: "Identifier for a selling agent."
         data_tests:
           - unique
           - not_null
 
   - name: stg_policies
-    description: "One row per policy"
+    description: "One row per policy term (policy_id + effective_date)."
     columns:
-      - name: policy_id
-        description: "Primary key, one row per policy."
+      - name: policy_term_key
+        description: "Surrogate key for a policy term (md5 of policy_id + effective_date)."
         data_tests:
           - unique
+          - not_null
+      - name: policy_id
+        description: "The insurer's policy number."
+        data_tests:
+          - not_null
+      - name: effective_date
+        description: "Date the coverage term starts."
+        data_tests:
           - not_null
       - name: customer_id
-        description: "FK to stg_customers, the policyholder."
+        description: "The policyholder (FK to stg_customers)."
       - name: agent_id
-        description: "FK to stg_agents, the selling agent."
+        description: "The agent who sold the policy (FK to stg_agents)."
 
   - name: stg_assets
-    description: "One row per insured asset"
+    description: "One row per insured asset (policy_id + asset_id)."
     columns:
-      - name: asset_id
-        description: "Primary key, one row per insured asset."
+      - name: asset_key
+        description: "Surrogate key for an insured asset (md5 of policy_id + asset_id)."
         data_tests:
           - unique
           - not_null
+      - name: asset_id
+        description: "The asset number."
+        data_tests:
+          - not_null
       - name: policy_id
-        description: "FK to stg_policies, the policy covering this asset."
+        description: "The policy covering the asset (FK to stg_policies)."
+        data_tests:
+          - not_null
       - name: location_zip
-        description: "Kept as string to preserve leading zeros."
+        description: "ZIP code of the asset"
 
   - name: stg_claims
-    description: "One row per claim"
+    description: "One row per claim (claim_id + policy_id)."
     columns:
-      - name: claim_id
-        description: "Primary key, one row per claim."
+      - name: claim_key
+        description: "Surrogate key for a claim (md5 of claim_id + policy_id)."
         data_tests:
           - unique
           - not_null
+      - name: claim_id
+        description: "The claim number Identifier."
+        data_tests:
+          - not_null
       - name: policy_id
-        description: "FK to stg_policies, the policy the claim is filed against."
+        description: "The policy the claim is filed against (FK to stg_policies)."
+        data_tests:
+          - not_null
       - name: asset_id
-        description: "FK to stg_assets, the damaged or lost asset."
+        description: "The asset the claim is against (FK to stg_assets)."
       - name: amount_paid
-        description: "The total amount paid to settle an insurance claim"
+        description: "Amount paid out to settle the claim."

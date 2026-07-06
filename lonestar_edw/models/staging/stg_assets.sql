@@ -6,6 +6,7 @@ select
     a.value:asset_description::string as asset_description,
     a.value:location_zip::string as location_zip,
     src.source_file_name,
-    src.load_timestamp
+    src.load_timestamp,
+    md5(a.value:policy_id::string || '-' || a.value:asset_id::string) as asset_key
 from {{ source('bronze', 'lonestar_daily_load') }} as src,
     lateral flatten(input => src.lonestar_data:assets) as a
